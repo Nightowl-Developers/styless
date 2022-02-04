@@ -1,0 +1,44 @@
+image: node:latest
+
+stages:
+  - pre-build
+  - build
+  - code-quality
+  - deploy
+
+install-dependencies-job:
+  stage: pre-build
+  script:
+    - npm install -g yarn
+    - yarn install --frozen-lockfile
+
+build-job:
+  stage: build
+  script:
+    - yarn build
+
+storybook-build-job:
+  stage: build
+  script:
+    - yarn storybook:build
+
+unit-test-job:
+  stage: code-quality
+  script:
+    - echo "test job..."
+
+lint-test-job:
+  stage: code-quality
+  script:
+    - yarn lint
+
+package-publish-job:
+  stage: deploy
+  script:
+    - echo "package deploy job..."
+
+uxpin-publish-job:
+  stage: deploy
+  script:
+    - echo "uxpin deploy job..."
+
