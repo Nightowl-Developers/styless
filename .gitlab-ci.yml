@@ -22,15 +22,15 @@ storybook-build-job:
   script:
     - yarn storybook:build
 
-unit-test-job:
-  stage: code-quality
-  script:
-    - echo "test job..."
-
 lint-test-job:
   stage: code-quality
   script:
     - yarn lint
+
+unit-test-job:
+  stage: code-quality
+  script:
+    - echo "test job..."
 
 package-publish-job:
   stage: deploy
