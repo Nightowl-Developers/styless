@@ -7,8 +7,10 @@ import * as React from 'react';
  */
 const useFocusTrap = (
     refs: React.RefObject<HTMLElement[]>,
+    escapeKey: string,
     focusLastKey: string,
-    focusNextKey: string
+    focusNextKey: string,
+    closeFn: () => void
 ): (event: KeyboardEvent) => void => {
     const memoizedRefs = React.useMemo(() => refs, [refs]);
     const [activeRef, setActiveRef] = React.useState(0);
@@ -26,6 +28,10 @@ const useFocusTrap = (
     const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
         const firstValidIndex = 0;
         const lastValidIndex = refs.current.length;
+
+        if (event.key === escapeKey) {
+            closeFn();
+        }
 
         // if the first item is focused
         if (activeRef === firstValidIndex) {
