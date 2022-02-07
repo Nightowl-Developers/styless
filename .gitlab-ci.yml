@@ -4,6 +4,7 @@ stages:
   - pre-build
   - build
   - code-quality
+  - containerize
   - deploy
 
 install-dependencies-job:
@@ -30,7 +31,17 @@ lint-test-job:
 unit-test-job:
   stage: code-quality
   script:
-    - echo "test job..."
+    - yarn test
+
+containerize-storybook:
+  stage: containerize
+  script:
+    - echo "containerize storybook"
+
+containerize-coverage:
+  stage: containerize
+  script:
+    - echo "containerize code coverage"
 
 package-publish-job:
   stage: deploy
