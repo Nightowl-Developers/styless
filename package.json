@@ -16,7 +16,9 @@
     "storybook:start": "start-storybook -p 6006",
     "test": "jest",
     "uxpin:dev": "",
-    "uxpin:push": ""
+    "uxpin:push": "",
+    "containerize:storybook": "",
+    "containerize:coverage": ""
   },
   "peerDependencies": {
     "react": "^17.0.2",
