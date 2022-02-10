@@ -17,3 +17,7 @@ npm install styless
 Documentation for component usage and typescript typings can be found [here]().
 
 Our components can be viewed at the [storybook]() instance we host.
+
+## Contributing
+
+For more information on contributing to one of our open-source projects, go [here]() and submit an application to be an open-source contributor.
