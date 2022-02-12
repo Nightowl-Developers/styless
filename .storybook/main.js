@@ -4,8 +4,11 @@ module.exports = {
     "../src/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
+    "@storybook/addon-a11y",
+    "@storybook/addon-essentials",
+    "@storybook/addon-jest",
     "@storybook/addon-links",
-    "@storybook/addon-essentials"
+    "storybook-addon-pseudo-states"
   ],
   "framework": "@storybook/react"
 }
