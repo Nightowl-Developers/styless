@@ -23,4 +23,15 @@
         expect(getByLabelText('MaskedInput')).toBeInTheDocument();
         expect(getByPlaceholderText('MaskedInput')).toBeInTheDocument();
      });
+
+     it('should have a mask that reads `123-xx-xxxx`', () => {
+         const {} = render(<MaskedInput
+            id='input'
+            label='MaskedInput'
+            mask='xxx-xxx-xxxx'
+            maskDelimiter='-'
+            placeholder='MaskedInput'
+            value='333'
+         />);
+     });
  });

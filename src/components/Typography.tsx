@@ -27,7 +27,7 @@ const Typography: React.FC<TypographyProps> = ({
                 default:
                     return ['p'];
             }
-        }
+        };
     }, [
         variant
     ]);

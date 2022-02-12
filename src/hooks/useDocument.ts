@@ -5,7 +5,7 @@ const useDocument = (): Document | undefined => {
 
     React.useEffect(() => {
         setIsClient(true);
-    });
+    }, []);
 
     return isClient ? document : undefined;
 };

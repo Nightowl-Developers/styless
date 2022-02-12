@@ -5,7 +5,7 @@ const useWindow = (): Window | undefined => {
 
     React.useEffect(() => {
         setIsClient(true);
-    });
+    }, []);
 
     return isClient ? window : undefined;
 };
