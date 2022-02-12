@@ -2,10 +2,10 @@
 FROM nginx:latest
 
 # copy static files into nginx www directory
-COPY ../dist/storybook /storybook
+COPY dist/storybook /storybook
 
 # copy config files into nginx
-COPY ./config/storybook.conf /etc/nginx/sites-enabled
+COPY /Dockerfiles/config/storybook.conf /etc/nginx/sites-enabled
 
 # expose ports
 EXPOSE 80/tcp
