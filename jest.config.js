@@ -6,14 +6,22 @@ module.exports = async () => {
         },
         collectCoverage: true,
         collectCoverageFrom: [
-            '!node_modules/',
-            '(/__test__/.*|(\\.|/)(test|spec))\\.tsx?$'
+            'src/**/*.(test|spec).tsx?$'
         ],
+        coverageIgnorePatterns: [
+            '.github',
+            '.storybook',
+            'dist',
+            'Dockerfiles',
+            'node_modules'
+        ],
+        coverageDirectory: '<rootDir>/dist/coverage',
+        mapCoverage: true,
         setupFilesAfterEnv: [
             // '@testing-library/react/cleanup-after-each',
             '@testing-library/jest-dom/extend-expect'
         ],
-        testRegex: '(/__test__/.*|(\\.|/)(test|spec))\\.tsx?$',
+        testRegex: '(__test__/.*|(\\.|/)(test|spec))\\.tsx?$',
         moduleFileExtensions: [
             'ts',
             'tsx',
