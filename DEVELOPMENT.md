@@ -5,6 +5,10 @@ Development workflow is simple. Storybook will allow you to view and interact wi
 ## Running Storybook
 
 ```shell
+# generates a file that storybook uses for jest integration
+yarn test
+
+# runs storybook
 yarn storybook
 ```
 
