@@ -44,7 +44,7 @@ jobs:
         run: yarn install --frozen-lock
 
       - name: Generate Test JSON
-        run: yarn test:output
+        run: yarn test:out
 
       - name: Build Storybook
         run: yarn storybook:build
