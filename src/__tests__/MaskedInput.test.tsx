@@ -24,7 +24,7 @@
         expect(getByPlaceholderText('MaskedInput')).toBeInTheDocument();
      });
 
-     it('should have a mask that reads `123-xx-xxxx`', () => {
+     it('should have a mask that reads `123-45-xxxx`', () => {
          const { container } = render(<MaskedInput
             id='input'
             label='MaskedInput'
