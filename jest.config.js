@@ -4,19 +4,6 @@ module.exports = async () => {
         transform: {
             '^.+\\.tsx?$': 'ts-jest'
         },
-        collectCoverage: true,
-        collectCoverageFrom: [
-            'src/**/*.(test|spec).tsx?$'
-        ],
-        coverageIgnorePatterns: [
-            '.github',
-            '.storybook',
-            'dist',
-            'Dockerfiles',
-            'node_modules'
-        ],
-        coverageDirectory: '<rootDir>/dist/coverage',
-        mapCoverage: true,
         setupFilesAfterEnv: [
             // '@testing-library/react/cleanup-after-each',
             '@testing-library/jest-dom/extend-expect'
@@ -30,6 +17,7 @@ module.exports = async () => {
             'json',
             'node'
         ],
+        rootDir: ".",
         verbose: true,
     };
 };

@@ -12,7 +12,7 @@ describe('useDocument hook', () => {
 
         rerender()
 
-        await act(() => {
+        act(() => {
             const { current } = result;
 
             expect(current.maxLength).toEqual(10);
