@@ -34,6 +34,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Setup Node Environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lock
+
+      - name: Generate Test JSON
+        run: yarn test:output
+
+      - name: Build Storybook
+        run: yarn storybook:build
+
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
