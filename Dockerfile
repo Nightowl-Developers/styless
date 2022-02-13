@@ -8,7 +8,7 @@ COPY dist/storybook .
 COPY nginx /etc/nginx/sites-enabled
 
 # expose ports
-EXPOSE 80/tcp
+EXPOSE 8080/tcp
 EXPOSE 443/tcp
 
 # run nginx
