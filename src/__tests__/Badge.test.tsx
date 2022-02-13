@@ -9,4 +9,6 @@
  } from '@testing-library/react';
 //  import Badge from '../components/Badge';
  
- describe('Badge component', () => {});
+ describe('Badge component', () => {
+    test.todo('should render');
+});

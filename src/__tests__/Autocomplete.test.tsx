@@ -9,4 +9,6 @@
  } from '@testing-library/react';
 //  import Autocomplete from '../components/Autocomplete';
  
- describe('Autocomplete component', () => {});
+ describe('Autocomplete component', () => {
+    test.todo('should render');
+});

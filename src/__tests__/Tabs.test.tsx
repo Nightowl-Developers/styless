@@ -9,4 +9,6 @@
  } from '@testing-library/react';
 //  import Tabs from '../components/Tabs';
  
- describe('Tabs component', () => {});
+ describe('Tabs component', () => {
+    test.todo('should render');
+});

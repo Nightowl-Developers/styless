@@ -9,4 +9,6 @@
  } from '@testing-library/react';
 //  import Select from '../components/Select';
  
- describe('Select component', () => {});
+ describe('Select component', () => {
+    test.todo('should render');
+});
