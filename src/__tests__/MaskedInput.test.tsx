@@ -25,13 +25,23 @@
      });
 
      it('should have a mask that reads `123-xx-xxxx`', () => {
-         const {} = render(<MaskedInput
+         const { container } = render(<MaskedInput
             id='input'
             label='MaskedInput'
             mask='xxx-xxx-xxxx'
             maskDelimiter='-'
             placeholder='MaskedInput'
-            value='333'
+            value='123'
          />);
+
+         const input = container.querySelector('input');
+
+         fireEvent.change(input, {
+             target: {
+                 value: '123-45'
+             }
+         });
+
+         expect(input.value).toEqual('123-45-xxxx');
      });
  });

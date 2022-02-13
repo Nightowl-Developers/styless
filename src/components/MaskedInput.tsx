@@ -29,13 +29,14 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(({
     mask,
     maskDelimiter,
     onBlur,
-    onChange,
+    onChange: onChangeProp,
     onClick,
     onFocus,
     ...props
 }, ref) => {
     const {
         maxLength,
+        onChange,
         value
     } = useCreateMaskedInput(
         mask,
@@ -49,7 +50,13 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(({
     );
     
     const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChangeProp) {
+                onChangeProp(event);
+            }
+
+            onChange(event);
+        },
         disabled
     );
     
