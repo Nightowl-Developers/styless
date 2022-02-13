@@ -12,4 +12,4 @@ EXPOSE 80/tcp
 EXPOSE 443/tcp
 
 # run nginx
-CMD []
+CMD ["/usr/sbin/nginx"]
