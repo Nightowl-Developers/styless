@@ -3,13 +3,12 @@ FROM nginx:latest
 
 WORKDIR /styless
 
+RUN rm -f /etc/nginx/sites-enabled/*.conf
+
 # copy static files into nginx www directory
-COPY dist/storybook .
-COPY nginx /etc/nginx/sites-enabled
+COPY dist/storybook /storybook
+COPY nginx /etc/nginx
 
 # expose ports
-EXPOSE 8080/tcp
+EXPOSE 80/tcp
 EXPOSE 443/tcp
-
-# run nginx
-CMD ["/usr/sbin/nginx"]

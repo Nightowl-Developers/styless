@@ -19,8 +19,7 @@
     "test:out": "jest --json --outputFile=.jest-test-results.json",
     "uxpin:dev": "",
     "uxpin:push": "",
-    "containerize:storybook": "docker build -t styless/storybook - < Dockerfiles/storybook.Dockerfile",
-    "containerize:coverage": "docker build -t styless/coverage - < Dockerfiles/coverage.Dockerfile"
+    "containerize:storybook": "docker build -t styless/storybook ."
   },
   "peerDependencies": {
     "react": "^17.0.2",
