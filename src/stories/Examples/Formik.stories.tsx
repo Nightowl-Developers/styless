@@ -7,7 +7,7 @@ export default {
     component: Formik
 };
 
-export const FormikForm = () => {
+export const LoginForm = () => {
     return <Formik
         initialValues={{
             email: '',
