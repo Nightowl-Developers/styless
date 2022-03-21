@@ -2,23 +2,26 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-    useCreateBlurHandler,
-    useCreateChangeHandler,
-    useCreateClickHandler,
-    useCreateFocusHandler
+    useControlled
 } from '../hooks';
+import Hint from "./Hint";
+import Error from "./Error";
 
-type propsToOmit = 'id';
+type propsToOmit = 'id' | 'value';
 
 export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    error?: string;
     hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
+    value?: boolean;
 };
 
 const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     disabled = false,
+    error,
+    hint,
     id,
     label,
     labelProps,
@@ -26,29 +29,64 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     onChange,
     onClick,
     onFocus,
+    value: valueProp,
     ...props
 }, ref) => {
-    const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
-        onBlur,
-        disabled
-    );
-    
-    const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
-        disabled
-    );
-    
-    const handleOnClick = useCreateClickHandler<HTMLInputElement>(
-        onClick,
-        disabled
-    );
-    
-    const handleOnFocus = useCreateFocusHandler<HTMLInputElement>(
-        onFocus,
-        disabled
-    );
+    const [value, setValue] = useControlled<boolean>({
+        controlled: valueProp,
+        default: false,
+        name: 'Radio'
+    });
+
+    const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (disabled) return;
+
+        if (onBlur) {
+            onBlur(event);
+        }
+    };
+
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(Boolean(event.currentTarget.value));
+
+        if (onChange) {
+            onChange(event);
+        }
+    };
+
+    const handleOnClick = (event: React.MouseEvent<HTMLInputElement>) => {
+        if (disabled) return;
+
+        if (onClick) {
+            onClick(event);
+        }
+    }
+
+    const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (disabled) return;
+
+        if (onFocus) {
+            onFocus(event);
+        }
+    };
 
     return <>
+        <input
+            {...props}
+            id={id}
+            aria-invalid={!!error}
+            aria-describedby={`${id}-hint`}
+            aria-errormessage={`${id}-error`}
+            aria-labelledby={`${id}-label`}
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            onClick={handleOnClick}
+            onFocus={handleOnFocus}
+            type='radio'
+            value={value.toString()}
+            ref={ref}
+        />
+
         <label
             {...labelProps}
             htmlFor={id}
@@ -56,16 +94,9 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
             { label }
         </label>
 
-        <input
-            {...props}
-            id={id}
-            onBlur={handleOnBlur}
-            onChange={handleOnChange}
-            onClick={handleOnClick}
-            onFocus={handleOnFocus}
-            type='radio'
-            ref={ref}
-        />
+        <Hint id={id} hint={hint} />
+
+        <Error id={id} message={error} />
     </>;
 });
 
@@ -73,13 +104,16 @@ Radio.displayName = 'Radio';
 
 Radio.propTypes = {
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,
     onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onChange: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
+    value: PropTypes.bool,
 };
 
 export default Radio;

@@ -2,23 +2,28 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-    useCreateBlurHandler,
-    useCreateChangeHandler,
-    useCreateClickHandler,
-    useCreateFocusHandler
+    useControlled
 } from '../hooks';
+import Hint from "./Hint";
+import Error from "./Error";
 
-type propsToOmit = 'id';
+type propsToOmit = 'defaultValue' | 'id' | 'value';
 
 export interface PasswordProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    defaultValue?: string;
+    error?: string;
     hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
+    value?: string;
 };
 
 const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
+    defaultValue,
     disabled = false,
+    error,
+    hint,
     id,
     label,
     labelProps,
@@ -26,27 +31,38 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
     onChange,
     onClick,
     onFocus,
+    value: valueProp,
     ...props
 }, ref) => {
-    const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
-        onBlur,
-        disabled
-    );
-    
-    const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
-        disabled
-    );
-    
-    const handleOnClick = useCreateClickHandler<HTMLInputElement>(
-        onClick,
-        disabled
-    );
-    
-    const handleOnFocus = useCreateFocusHandler<HTMLInputElement>(
-        onFocus,
-        disabled
-    );
+    const [value, setValue] = useControlled<string>({
+        controlled: valueProp,
+        default: defaultValue,
+        name: 'Password'
+    })
+
+    const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (disabled) return;
+
+        if (onBlur) {
+            onBlur(event);
+        }
+    };
+
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.currentTarget.value);
+
+        if (onChange) {
+            onChange(event);
+        }
+    };
+
+    const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (disabled) return;
+
+        if (onFocus) {
+            onFocus(event);
+        }
+    };
 
     return <>
         <label
@@ -59,27 +75,39 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
         <input
             {...props}
             id={id}
+            aria-invalid={!!error}
+            aria-describedby={`${id}-hint`}
+            aria-errormessage={`${id}-error`}
+            aria-labelledby={`${id}-label`}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
-            onClick={handleOnClick}
             onFocus={handleOnFocus}
             type='password'
+            value={value}
             ref={ref}
         />
+
+        <Hint id={id} hint={hint} />
+
+        <Error id={id} message={error} />
     </>;
 });
 
 Password.displayName = 'Password';
 
 Password.propTypes = {
+    defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,
     onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onChange: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
+    value: PropTypes.string,
 };
 
 export default Password;
