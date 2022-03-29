@@ -2,16 +2,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-    useCreateBlurHandler,
-    useCreateChangeHandler,
-    useCreateClickHandler,
-    useCreateFocusHandler,
+    useControlled,
     useCreateMaskedInput
 } from '../hooks';
 
-type propsToOmit = 'id' | 'value';
+type propsToOmit = 'defaultValue' | 'id' | 'value';
 
 export interface MaskedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    defaultValue?: string;
     hint?: string;
     id: string;
     label: string;
@@ -22,6 +20,7 @@ export interface MaskedInputProps extends Omit<React.InputHTMLAttributes<HTMLInp
 };
 
 const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(({
+    defaultValue,
     disabled = false,
     id,
     label,
@@ -29,46 +28,43 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(({
     mask,
     maskDelimiter,
     onBlur,
-    onChange: onChangeProp,
+    onChange,
     onClick,
     onFocus,
+    value: valueProp,
     ...props
 }, ref) => {
-    const {
-        maxLength,
-        onChange,
-        value
-    } = useCreateMaskedInput(
-        mask,
-        maskDelimiter,
-        props.value
-    );
+    const [value, setValue] = useControlled<string>({
+        controlled: valueProp,
+        default: defaultValue,
+        name: 'MaskedInput'
+    });
 
-    const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
-        onBlur,
-        disabled
-    );
-    
-    const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            if (onChangeProp) {
-                onChangeProp(event);
-            }
+    const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (disabled) return;
 
+        if (onBlur) {
+            onBlur(event);
+        }
+    };
+
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (disabled) return;
+
+        setValue(event.currentTarget.value);
+
+        if (onChange) {
             onChange(event);
-        },
-        disabled
-    );
-    
-    const handleOnClick = useCreateClickHandler<HTMLInputElement>(
-        onClick,
-        disabled
-    );
-    
-    const handleOnFocus = useCreateFocusHandler<HTMLInputElement>(
-        onFocus,
-        disabled
-    );
+        }
+    };
+
+    const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (disabled) return;
+
+        if (onFocus) {
+            onFocus(event);
+        }
+    };
 
     return <>
         <label
@@ -81,10 +77,9 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(({
         <input
             {...props}
             id={id}
-            maxLength={maxLength}
+            // maxLength={maxLength}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
-            onClick={handleOnClick}
             onFocus={handleOnFocus}
             value={value}
             ref={ref}
@@ -95,6 +90,7 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(({
 MaskedInput.displayName = 'MaskedInput';
 
 MaskedInput.propTypes = {
+    defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -105,7 +101,7 @@ MaskedInput.propTypes = {
     onClick: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    value: PropTypes.string
+    value: PropTypes.string,
 };
 
 export default MaskedInput;

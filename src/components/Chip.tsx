@@ -1,9 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import { useCreateClickHandler, useCreateFocusHandler } from '..';
-import useCreateBlurHandler from '../hooks/useCreateChangeHandler';
-
 export interface ChipProps {
     children: React.ReactNode;
     closable?: boolean;
@@ -26,36 +23,25 @@ const Chip: React.FC<ChipProps> = ({
     iconBefore,
     onBlur,
     onClick,
-    onClose,
     onFocus
 }) => {
-    const handleOnBlur = useCreateBlurHandler((event: React.FocusEvent<HTMLButtonElement>) => {
+    const handleOnBlur = (event: React.FocusEvent<HTMLButtonElement>) => {
         if (onBlur) {
             onBlur(event);
         }
-    }, disabled);
+    };
 
-    const close = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-        if (onClose) {
-            onClose(event);
-        }
-    }, [
-        onClose
-    ]);
-
-    const handleOnClick = useCreateClickHandler((event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (onClick) {
             onClick(event);
         }
-        
-        close(event);
-    }, disabled);
+    };
     
-    const handleOnFocus = useCreateFocusHandler((event: React.FocusEvent<HTMLButtonElement>) => {
+    const handleOnFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
         if (onFocus) {
             onFocus(event);
         }
-    }, disabled);
+    };
 
     return <div
         className='chip'
