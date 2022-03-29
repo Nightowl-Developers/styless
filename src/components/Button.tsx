@@ -9,13 +9,20 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     isSubmitting?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => (
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
+    iconAfter,
+    iconAfterSubmitting,
+    iconBefore,
+    iconBeforeSubmitting,
+    children,
+    ...props
+}, ref) => (
   <button {...props} ref={ref}>
-    { props.iconBefore && props.iconBefore }
-    { props.isSubmitting && props.iconBeforeSubmitting && props.iconBeforeSubmitting }
-    { props.children }
-    { props.isSubmitting && props.iconAfterSubmitting && props.iconAfterSubmitting }
-    { props.iconAfter && props.iconAfter }
+    { iconBefore && iconBefore }
+    { iconBeforeSubmitting && iconBeforeSubmitting }
+    { children }
+    { iconAfterSubmitting && iconAfterSubmitting }
+    { iconAfter && iconAfter }
   </button>
 ));
 
