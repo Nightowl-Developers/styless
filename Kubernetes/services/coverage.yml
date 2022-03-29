@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: styless-code-coverage-service
+  namespace: documentation
+spec:
+  selector:
+    app: styless-code-coverage
+  ports:
+    - name: code-coverage-http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: code-coverage-https
+      protocol: TCP
+      port: 443
+      targetPort: 443

@@ -10,7 +10,7 @@
  import MaskedInput from '../components/MaskedInput';
 
  describe('Checkbox component', () => {
-     it('should render', () => {
+     it.skip('should render', () => {
         const { getByLabelText, getByPlaceholderText } = render(<MaskedInput
             id='input'
             label='MaskedInput'
@@ -24,7 +24,7 @@
         expect(getByPlaceholderText('MaskedInput')).toBeInTheDocument();
      });
 
-     it('should have a mask that reads `123-45-xxxx`', () => {
+     it.skip('should have a mask that reads `123-45-xxxx`', () => {
          const { container } = render(<MaskedInput
             id='input'
             label='MaskedInput'

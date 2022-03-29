@@ -10,5 +10,6 @@
 //  import Badge from '../components/Badge';
  
  describe('Badge component', () => {
+     // @TODO add tests here
     test.todo('should render');
 });

@@ -10,5 +10,6 @@
 //  import Tabs from '../components/Tabs';
  
  describe('Tabs component', () => {
+     // @TODO add tests here
     test.todo('should render');
 });

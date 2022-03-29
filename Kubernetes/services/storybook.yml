@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: styless-storybook-service
+  namespace: documentation
+spec:
+  selector:
+    app: styless-storybook
+  ports:
+    - name: storybook-http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: storybook-https
+      protocol: TCP
+      port: 443
+      targetPort: 443

@@ -4,8 +4,8 @@ import classNames from "classnames";
 
 export interface CardProps {
     children: React.ReactNode;
-    className: string;
-    id: string;
+    className?: string;
+    id?: string;
 }
 
 const Card: React.FC<CardProps> = ({

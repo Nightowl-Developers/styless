@@ -31,6 +31,6 @@
             fireEvent.click(title);
         });
 
-        expect(container.querySelector('.accordion__content').classList).toContain('content-visible');
+        expect(container.querySelector('.accordion__content').classList).toContain('content__visible');
      })
  });

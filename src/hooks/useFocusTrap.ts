@@ -1,66 +1,69 @@
 import * as React from 'react';
 
-/**
- * 
- * @param refs 
- * @returns 
- */
-const useFocusTrap = (
-    refs: React.RefObject<HTMLElement[]>,
-    escapeKey: string,
-    focusLastKey: string,
-    focusNextKey: string,
-    closeFn: () => void
-): (event: KeyboardEvent) => void => {
-    const memoizedRefs = React.useMemo(() => refs, [refs]);
-    const [activeRef, setActiveRef] = React.useState(0);
+export interface UseFocusTrapProps<ElementType> {
+    defaultFocusableIndex?: number;
+    defaultOpen?: boolean;
+    escapeKeyCode?: string;
+    firstKeyCode?: string;
+    lastKeyCode?: string;
+    nextKeyCode?: string;
+    previousKeyCode?: string;
+    refs: (React.RefObject<ElementType> | React.MutableRefObject<ElementType>)[];
+}
 
-    React.useEffect(() => {
-        if (memoizedRefs.current[activeRef].focus) {
-            memoizedRefs.current[activeRef].focus();
-        }
-    }, [memoizedRefs, activeRef]);
+const useFocusTrap = <ElementType>({
+    defaultFocusableIndex = 0,
+    defaultOpen = false,
+    escapeKeyCode = 'ArrowUp',
+    firstKeyCode = 'Home',
+    lastKeyCode = 'End',
+    nextKeyCode = 'ArrowUp',
+    previousKeyCode = 'ArrowDown',
+    refs
+}: UseFocusTrapProps<ElementType>) => {
+    // if the focus is trapped
+    const [trapOpen, setTrapOpen] = React.useState(defaultOpen);
+    // the index of the focusable element
+    const [focused, setFocused] = React.useState(defaultFocusableIndex);
 
     /**
-     * 
-     * @param event - the synthetic react event.
+     * The `onKeyDown` handler that needs to be passed to all items that will have their focus
+     * trapped.
+     *
+     * @param event
      */
-    const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
-        const firstValidIndex = 0;
-        const lastValidIndex = refs.current.length;
-
-        if (event.key === escapeKey) {
-            closeFn();
+    const handleOnKeyDown = (event: React.KeyboardEvent<ElementType>) => {
+        if (!trapOpen) {
+            if (event.key === escapeKeyCode) {
+                setTrapOpen(false);
+            }
+            return;
         }
 
-        // if the first item is focused
-        if (activeRef === firstValidIndex) {
-            if (event.key === focusLastKey) {
-                // go back one
-                setActiveRef(lastValidIndex);
-            }
-    
-            if (event.key === focusNextKey) {
-                // go forward one
-                setActiveRef(activeRef + 1);
-            }
+        switch (event.key) {
+            case previousKeyCode:
+                setFocused(focused - 1);
+                break;
+            case nextKeyCode:
+                setFocused(focused + 1);
+                break;
+            case firstKeyCode:
+                setFocused(0);
+                break;
+            case lastKeyCode:
+                setFocused(refs.length - 1);
+                break;
+            default:
+                // no-op
+                break;
         }
+    };
 
-        // if the last item is focused
-        if (activeRef === lastValidIndex) {
-            if (event.key === focusLastKey) {
-                // go back one
-                setActiveRef(activeRef - 1);
-            }
-    
-            if (event.key === focusNextKey) {
-                // go forward one
-                setActiveRef(firstValidIndex);
-            }
-        }
-    }, [activeRef, setActiveRef]);
-
-    return handleKeyDown;
+    return {
+        handleOnKeyDown,
+        setTrapOpen,
+        trapOpen,
+    };
 };
 
 export default useFocusTrap;

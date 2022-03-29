@@ -10,5 +10,6 @@
 //  import Autocomplete from '../components/Autocomplete';
  
  describe('Autocomplete component', () => {
+     // @TODO add tests here
     test.todo('should render');
 });

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metdata:
+  name: styless-code-coverage
+  labels:
+    app: styless-storybook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: styless-storybook
+  template:
+    metadata:
+      labels:
+        app: styless-storybook
+    spec:
+      containers:
+        - name: styless-storybook
+          image: <image-needed-still>
+          ports:
+            - containerPort: 80

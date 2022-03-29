@@ -1,58 +1,50 @@
 import * as React from 'react';
 import MaskedInput from '../components/MaskedInput';
+import {ElementType} from "react";
+import {useControlled} from "./index";
+import {maskUserInput} from "../utils/maskUserInput";
+
+export interface UseMaskedInputProps {
+    defaultValue: string;
+    mask: string;
+    maskDelimiter: string;
+    maxLength: number;
+    name: string,
+    value: string;
+}
 
 /**
  * Returns the props necessary to create a masked input out of an ordinary HTML input.
- * 
- * @param mask - the mask to apply
- * @param onChange - the onChange event handler for the input
- * @param value - the controlled value prop of the input
- * 
+ *
+ * @param mask - the mask to apply.
+ * @param maskDelimiter - the character that delimits the mask.
+ * @param value - the controlled value prop of the input.
+ *
  * @returns - the props to spread to your input component
  */
-const useCreateMaskedInput = (mask: string, maskDelimiter: string, value: string) => {
-    const maskParts = mask.split(maskDelimiter);
-    const valueParts = value.split(maskDelimiter);
+const useMaskedInput = ({
+    defaultValue,
+    mask,
+    maskDelimiter,
+    name,
+    value: valueProp,
+}: UseMaskedInputProps) => {
+    const [value, setValue] = useControlled<string>({
+        controlled: valueProp,
+        default: defaultValue,
+        name,
+    });
 
-    const maskValue = (maskParts: string[], valueParts: string[]) => {
-        return maskParts.map((maskPart: string, index: number) => {
-            if (valueParts[index]) {
-                return valueParts[index];
-            }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const maskedText = maskUserInput(mask, maskDelimiter, event.currentTarget.value);
 
-            return maskPart;
-        }).join(maskDelimiter);
+        setValue(maskedText);
     };
 
-    const onChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        let lengthWithoutDelimiters = 0;
-
-        maskParts.forEach(() => {
-            lengthWithoutDelimiters += maskParts.length
-
-            if (event.currentTarget.value.length === lengthWithoutDelimiters) {
-                setMaskedValue(
-                    maskValue(
-                        maskParts,
-                        event.currentTarget.value.split(maskDelimiter)
-                    )
-                );
-            }
-        });
-    }, [
-        maskParts
-    ]);
-
-    const [maskedValue, setMaskedValue] = React.useState<string>(maskValue(maskParts, valueParts));
-
-    return {
-        // the max length of the input
-        maxLength: mask.length,
-        // the onChange handler for a masked input
-        onChange,
-        // the masked value
-        value: maskedValue,
-    };
+    return [
+        value,
+        handleChange,
+    ];
 };
 
-export default useCreateMaskedInput;
+export default useMaskedInput;
