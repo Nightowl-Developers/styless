@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+    useControlled,
     useCreateBlurHandler,
     useCreateChangeHandler,
     useCreateClickHandler,
@@ -11,6 +12,8 @@ import {
 type propsToOmit = 'id';
 
 export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    checked?: boolean;
+    defaultChecked?: boolean;
     hint?: string;
     id: string;
     label: string;
@@ -18,6 +21,8 @@ export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 };
 
 const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
+    checked,
+    defaultChecked,
     disabled = false,
     id,
     label,
@@ -28,13 +33,25 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     onFocus,
     ...props
 }, ref) => {
+    const [value, setValueIfUncontrolled] = useControlled<boolean>({
+        controlled: checked,
+        default: defaultChecked,
+        name: 'Input'
+    });
+
     const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
         onBlur,
         disabled
     );
-    
+
     const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) {
+                onChange(event);
+            }
+
+            setValueIfUncontrolled(Boolean(event.currentTarget.value));
+        },
         disabled
     );
     
@@ -49,13 +66,6 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     );
 
     return <>
-        <label
-            {...labelProps}
-            htmlFor={id}
-        >
-            { label }
-        </label>
-
         <input
             {...props}
             id={id}
@@ -64,14 +74,24 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
             onClick={handleOnClick}
             onFocus={handleOnFocus}
             type='radio'
+            value={String(value)}
             ref={ref}
         />
+
+        <label
+            {...labelProps}
+            htmlFor={id}
+        >
+            { label }
+        </label>
     </>;
 });
 
 Radio.displayName = 'Radio';
 
 Radio.propTypes = {
+    checked: PropTypes.bool,
+    defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,

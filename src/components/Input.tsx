@@ -1,23 +1,29 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import classNames from "classnames";
 
 import {
+    useControlled,
     useCreateBlurHandler,
     useCreateChangeHandler,
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
 
-type propsToOmit = 'id';
+type propsToOmit = 'defaultValue' | 'id';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    defaultValue?: string;
     hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
+    value?: string;
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(({
+    className,
+    defaultValue,
     disabled = false,
     id,
     label,
@@ -26,15 +32,28 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
     onChange,
     onClick,
     onFocus,
+    value: valueProp,
     ...props
 }, ref) => {
+    const [value, setValueIfUncontrolled] = useControlled<string>({
+        controlled: valueProp,
+        default: defaultValue,
+        name: 'Input'
+    });
+
     const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
         onBlur,
         disabled
     );
     
     const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) {
+                onChange(event);
+            }
+
+            setValueIfUncontrolled(event.currentTarget.value);
+        },
         disabled
     );
     
@@ -58,11 +77,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
 
         <input
             {...props}
+            className={classNames('input', className)}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
             onClick={handleOnClick}
             onFocus={handleOnFocus}
+            value={value}
             ref={ref}
         />
     </>;
@@ -71,6 +92,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
 Input.displayName = 'Input';
 
 Input.propTypes = {
+    className: PropTypes.string,
+    defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -78,7 +101,8 @@ Input.propTypes = {
     onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onChange: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
+    value: PropTypes.string,
 };
 
 export default Input;

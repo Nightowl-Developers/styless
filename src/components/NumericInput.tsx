@@ -1,23 +1,29 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import classNames from "classnames";
 
 import {
+    useControlled,
     useCreateBlurHandler,
     useCreateChangeHandler,
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
 
-type propsToOmit = 'id' | 'type';
+type propsToOmit = 'defaultValue' | 'id' | 'type';
 
 export interface NumericInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    defaultValue?: number;
     hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
-};
+    value?: number;
+}
 
 const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
+    className,
+    defaultValue,
     disabled = false,
     id,
     label,
@@ -26,15 +32,28 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
     onChange,
     onClick,
     onFocus,
+    value: valueProp,
     ...props
 }, ref) => {
+    const [value, setValueIfUncontrolled] = useControlled<number>({
+        controlled: valueProp,
+        default: defaultValue,
+        name: 'NumericInput'
+    });
+
     const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
         onBlur,
         disabled
     );
-    
+
     const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) {
+                onChange(event);
+            }
+
+            setValueIfUncontrolled(Number(event.currentTarget.value));
+        },
         disabled
     );
     
@@ -58,12 +77,14 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
 
         <input
             {...props}
+            className={classNames('input', 'numeric-input', className)}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
             onClick={handleOnClick}
             onFocus={handleOnFocus}
             type='number'
+            value={value}
             ref={ref}
         />
     </>;
@@ -72,6 +93,8 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
 NumericInput.displayName = 'Input';
 
 NumericInput.propTypes = {
+    className: PropTypes.string,
+    defaultValue: PropTypes.number,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -79,7 +102,8 @@ NumericInput.propTypes = {
     onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onChange: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
+    value: PropTypes.number,
 };
 
 export default NumericInput;

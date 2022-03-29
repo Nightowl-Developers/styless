@@ -12,9 +12,9 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => (
   <button {...props} ref={ref}>
     { props.iconBefore && props.iconBefore }
-    { props.iconBeforeSubmitting && props.iconBeforeSubmitting }
+    { props.isSubmitting && props.iconBeforeSubmitting && props.iconBeforeSubmitting }
     { props.children }
-    { props.iconAfterSubmitting && props.iconAfterSubmitting }
+    { props.isSubmitting && props.iconAfterSubmitting && props.iconAfterSubmitting }
     { props.iconAfter && props.iconAfter }
   </button>
 ));

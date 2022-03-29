@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+    useControlled,
     useCreateBlurHandler,
     useCreateChangeHandler,
     useCreateClickHandler,
@@ -11,6 +12,8 @@ import {
 type propsToOmit = 'id';
 
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    defaultChecked?: boolean;
+    checked?: boolean;
     hint?: string;
     id: string;
     label: string;
@@ -18,6 +21,8 @@ export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputE
 };
 
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
+    checked,
+    defaultChecked,
     disabled = false,
     id,
     label,
@@ -28,13 +33,25 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
     onFocus,
     ...props
 }, ref) => {
+    const [value, setValueIfUncontrolled] = useControlled<boolean>({
+        controlled: checked,
+        default: defaultChecked,
+        name: 'Checkbox'
+    });
+
     const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
         onBlur,
         disabled
     );
-    
+
     const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) {
+                onChange(event);
+            }
+
+            setValueIfUncontrolled(Boolean(event.currentTarget.value));
+        },
         disabled
     );
     
@@ -49,13 +66,6 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
     );
 
     return <>
-        <label
-            {...labelProps}
-            htmlFor={id}
-        >
-            { label }
-        </label>
-
         <input
             {...props}
             id={id}
@@ -64,14 +74,24 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
             onClick={handleOnClick}
             onFocus={handleOnFocus}
             type='checkbox'
+            value={String(value)}
             ref={ref}
         />
+
+        <label
+            {...labelProps}
+            htmlFor={id}
+        >
+            { label }
+        </label>
     </>;
 });
 
 Checkbox.displayName = 'Checkbox';
 
 Checkbox.propTypes = {
+    checked: PropTypes.bool,
+    defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,

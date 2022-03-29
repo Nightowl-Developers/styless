@@ -1,23 +1,29 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import classNames from "classnames";
 
 import {
+    useControlled,
     useCreateBlurHandler,
     useCreateChangeHandler,
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
 
-type propsToOmit = 'id';
+type propsToOmit = 'defaultValue' | 'id';
 
 export interface PasswordProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    defaultValue?: string;
     hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
+    value?: string;
 };
 
 const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
+    className,
+    defaultValue,
     disabled = false,
     id,
     label,
@@ -26,15 +32,28 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
     onChange,
     onClick,
     onFocus,
+    value: valueProp,
     ...props
 }, ref) => {
+    const [value, setValueIfUncontrolled] = useControlled({
+        controlled: valueProp,
+        default: defaultValue,
+        name: 'Password'
+    });
+
     const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
         onBlur,
         disabled
     );
-    
+
     const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) {
+                onChange(event);
+            }
+
+            setValueIfUncontrolled(event.currentTarget.value);
+        },
         disabled
     );
     
@@ -58,12 +77,14 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
 
         <input
             {...props}
+            className={classNames('input', 'password-input', className)}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
             onClick={handleOnClick}
             onFocus={handleOnFocus}
             type='password'
+            value={value}
             ref={ref}
         />
     </>;
@@ -72,6 +93,8 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
 Password.displayName = 'Password';
 
 Password.propTypes = {
+    className: PropTypes.string,
+    defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -79,7 +102,8 @@ Password.propTypes = {
     onBlur: PropTypes.func,
     onClick: PropTypes.func,
     onChange: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
+    value: PropTypes.string,
 };
 
 export default Password;

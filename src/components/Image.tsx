@@ -5,14 +5,20 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
     alt: string;
 };
 
-const Image: React.FC<ImageProps> = (props) => {
+const Image: React.FC<ImageProps> = ({
+    alt,
+    src,
+    srcSet
+}) => {
     return <figure>
         <img
-            {...props}
+            src={src}
+            srcSet={srcSet}
+            alt={alt}
         />
 
         <figcaption>
-            { props.alt }
+            { alt }
         </figcaption>
     </figure>;
 };

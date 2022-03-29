@@ -1,24 +1,29 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import classNames from "classnames";
 
 import {
+    useControlled,
     useCreateBlurHandler,
     useCreateChangeHandler,
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
 
-type propsToOmit = 'id' | 'value';
+type propsToOmit = 'defaultValue' | 'id' | 'value';
 
 export interface SliderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    defaultValue?: number;
     hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
-    value?: string;
+    value?: number;
 };
 
 const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
+    className,
+    defaultValue,
     disabled = false,
     id,
     label,
@@ -27,15 +32,28 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
     onChange,
     onClick,
     onFocus,
+    value: valueProp,
     ...props
 }, ref) => {
+    const [value, setValueIfUncontrolled] = useControlled<number>({
+        controlled: valueProp,
+        default: defaultValue,
+        name: 'Slider'
+    });
+
     const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
         onBlur,
         disabled
     );
-    
+
     const handleOnChange = useCreateChangeHandler<HTMLInputElement>(
-        onChange,
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) {
+                onChange(event);
+            }
+
+            setValueIfUncontrolled(Number(event.currentTarget.value));
+        },
         disabled
     );
     
@@ -59,12 +77,14 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
 
         <input
             {...props}
+            className={classNames('input', 'slider-input', className)}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
             onClick={handleOnClick}
             onFocus={handleOnFocus}
             type='range'
+            value={value}
             ref={ref}
         />
     </>;
@@ -73,6 +93,8 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
 Slider.displayName = 'Slider';
 
 Slider.propTypes = {
+    defaultValue: PropTypes.number,
+    className: PropTypes.string,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -81,7 +103,7 @@ Slider.propTypes = {
     onClick: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    value: PropTypes.string
+    value: PropTypes.number,
 };
 
 export default Slider;

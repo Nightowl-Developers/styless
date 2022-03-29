@@ -1,53 +1,62 @@
 import * as React from 'react';
 
-const useControlled = (value: string | number | boolean | undefined) => {
-    /**
-     * controlled components are components whose state are controlled
-     * by the react api.
-     * 
-     * this variable makes a component controlled when value is provided.
-     */
-    const [controlledValue, setControlledValue] = React.useState<
-        string | number | boolean | undefined
-    >(value || undefined);
+export interface UseControlledProps<ValueType> {
+    controlled: ValueType;
+    default: ValueType;
+    name: string;
+    state?: string;
+}
 
-    /**
-     * is the component controlled or uncontrolled?
-     * 
-     * @returns - whether the component is controlled or uncontrolled.
-     */
-    const isControlled = () => value !== undefined;
+export default function useControlled<ValueType>({
+    controlled,
+    default: defaultProp,
+    name,
+    state = 'value'
+}: UseControlledProps<ValueType>): [ValueType, (newValue: ValueType) => void] {
+    const { current: isControlled } = React.useRef<boolean>(controlled !== undefined);
+    const [valueState, setValue] = React.useState<ValueType>(defaultProp);
 
-    /**
-     * Sets the controlled variable value when the component is controlled.
-     * 
-     * @param value - the value from an event.
-     */
-    const setValue = (value: string | number | boolean | undefined) => {
-        if (isControlled()) {
-            setControlledValue(value);
+    const value = isControlled
+        ? controlled
+        : valueState;
+
+    if (process.env.NODE_ENV !== 'production') {
+        React.useEffect(() => {
+            if (isControlled !== (controlled !== undefined)) {
+                console.error(
+                    [
+                        `MUI: A component is changing the ${
+                            isControlled ? '' : 'un'
+                        }controlled ${state} state of ${name} to be ${isControlled ? 'un' : ''}controlled.`,
+                        'Elements should not switch from uncontrolled to controlled (or vice versa).',
+                        `Decide between using a controlled or uncontrolled ${name} ` +
+                        'element for the lifetime of the component.',
+                        "The nature of the state is determined during the first render. It's considered controlled if the value is not `undefined`.",
+                        'More info: https://fb.me/react-controlled-components',
+                    ].join('\n'),
+                );
+            }
+        }, [state, name, controlled]);
+
+        const { current: defaultValue } = React.useRef(defaultProp);
+
+        React.useEffect(() => {
+            if (!isControlled && defaultValue !== defaultProp) {
+                console.error(
+                    [
+                        `MUI: A component is changing the default ${state} state of an uncontrolled ${name} after being initialized. ` +
+                        `To suppress this warning opt to use a controlled ${name}.`,
+                    ].join('\n'),
+                );
+            }
+        }, [JSON.stringify(defaultProp)]);
+    }
+
+    const setValueIfUncontrolled = React.useCallback((newValue: ValueType) => {
+        if (!isControlled) {
+            setValue(newValue);
         }
-    };
+    }, []);
 
-    /**
-     * we mimick the api for the React.useState hook in our own.
-     * 
-     * the first value returned within the array is the state 
-     * variable. when the component is controlled, it returns 
-     * the `controlledValue` variable, when uncontrolled, it 
-     * returns the `value` argument.
-     * 
-     * the second value returned within the array is the setState 
-     * variable, when the setState variable is used, it will set 
-     * the controlled variables state.
-     * 
-     * important: the setState variable will do nothing when the 
-     * component is uncontrolled.
-     */
-    return [
-        isControlled() ? controlledValue : value,
-        setValue
-    ];
+    return [value, setValueIfUncontrolled];
 };
-
-export default useControlled;
