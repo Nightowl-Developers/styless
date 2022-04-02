@@ -13,6 +13,7 @@ export interface AccordionProps {
     open?: boolean;
     title?: string;
     onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+    onChange?: (open: boolean) => void;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
 }
@@ -25,6 +26,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
     open: openProp,
     title,
     onBlur,
+    onChange,
     onClick,
     onFocus
 }, ref) => {
@@ -63,6 +65,12 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
             onFocus(event);
         }
     };
+
+    React.useEffect(() => {
+        if (onChange) {
+            onChange(open);
+        }
+    }, [open]);
 
     return <div
         className={clsx(
@@ -106,6 +114,7 @@ Accordion.propTypes = {
     open: PropTypes.bool,
     title: PropTypes.string,
     onBlur: PropTypes.func,
+    onChange: PropTypes.func,
     onClick: PropTypes.func,
     onFocus: PropTypes.func,
 }

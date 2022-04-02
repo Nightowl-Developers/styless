@@ -9,11 +9,14 @@ import {
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
+import Error from "./Error";
+import Hint from "./Hint";
 
 type propsToOmit = 'defaultValue' | 'id';
 
 export interface PasswordProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
     defaultValue?: string;
+    error?: string;
     hint?: string;
     id: string;
     label: string;
@@ -25,6 +28,8 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
     className,
     defaultValue,
     disabled = false,
+    error,
+    hint,
     id,
     label,
     labelProps,
@@ -87,6 +92,10 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
             value={value}
             ref={ref}
         />
+
+        { hint && <Hint id={`${id}-hint`} hint={hint} /> }
+
+        { error && <Error id={`${id}-error`} message={error} /> }
     </>;
 });
 
@@ -96,6 +105,8 @@ Password.propTypes = {
     className: PropTypes.string,
     defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,

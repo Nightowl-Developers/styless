@@ -3,7 +3,7 @@ import * as React from 'react';
 import MaskedInput from '../components/MaskedInput';
 
 export default {
-    title: 'Components/MaskedInput',
+    title: 'Styless/MaskedInput',
     component: MaskedInput
 };
 

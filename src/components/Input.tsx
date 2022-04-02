@@ -9,11 +9,14 @@ import {
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
+import Hint from "./Hint";
+import Error from "./Error";
 
 type propsToOmit = 'defaultValue' | 'id';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
     defaultValue?: string;
+    error?: string;
     hint?: string;
     id: string;
     label: string;
@@ -25,6 +28,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
     className,
     defaultValue,
     disabled = false,
+    error,
+    hint,
     id,
     label,
     labelProps,
@@ -86,6 +91,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
             value={value}
             ref={ref}
         />
+
+        { hint && <Hint id={`${id}-hint`} hint={hint} /> }
+
+        { error && <Error id={`${id}-error`} message={error} /> }
     </>;
 });
 
@@ -95,6 +104,8 @@ Input.propTypes = {
     className: PropTypes.string,
     defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,

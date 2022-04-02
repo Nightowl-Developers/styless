@@ -9,11 +9,14 @@ import {
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
+import Error from "./Error";
+import Hint from "./Hint";
 
 type propsToOmit = 'defaultValue' | 'id';
 
 export interface EmailProps extends Omit<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, propsToOmit> {
     defaultValue?: string;
+    error?: string;
     hint?: string;
     id: string;
     label: string;
@@ -25,6 +28,9 @@ const Email = React.forwardRef<HTMLInputElement, EmailProps>(({
     className,
     defaultValue,
     disabled = false,
+    error,
+    hint,
+    id,
     onBlur,
     onChange,
     onClick,
@@ -67,13 +73,14 @@ const Email = React.forwardRef<HTMLInputElement, EmailProps>(({
     return <>
         <label
             {...props.labelProps}
-            htmlFor={props.id}
+            htmlFor={`${id}-label`}
         >
             { props.label }
         </label>
 
         <input
             {...props}
+            aria-labelledby={`${id}-label`}
             className={classNames('input', 'email-input', className)}
             disabled={disabled}
             onBlur={handleOnBlur}
@@ -84,6 +91,10 @@ const Email = React.forwardRef<HTMLInputElement, EmailProps>(({
             value={value}
             ref={ref}
         />
+
+        { hint && <Hint id={`${id}-hint`} hint={hint} /> }
+
+        { error && <Error id={`${id}-error`} message={error} /> }
     </>;
 });
 
@@ -93,6 +104,8 @@ Email.propTypes = {
     className: PropTypes.string,
     defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,
