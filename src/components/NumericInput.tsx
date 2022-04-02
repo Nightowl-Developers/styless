@@ -9,11 +9,14 @@ import {
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
+import Hint from "./Hint";
+import Error from "./Error";
 
 type propsToOmit = 'defaultValue' | 'id' | 'type';
 
 export interface NumericInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
     defaultValue?: number;
+    error?: string;
     hint?: string;
     id: string;
     label: string;
@@ -25,6 +28,8 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
     className,
     defaultValue,
     disabled = false,
+    error,
+    hint,
     id,
     label,
     labelProps,
@@ -87,6 +92,10 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
             value={value}
             ref={ref}
         />
+
+        { hint && <Hint id={`${id}-hint`} hint={hint} /> }
+
+        { error && <Error id={`${id}-error`} message={error} /> }
     </>;
 });
 
@@ -96,6 +105,8 @@ NumericInput.propTypes = {
     className: PropTypes.string,
     defaultValue: PropTypes.number,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,

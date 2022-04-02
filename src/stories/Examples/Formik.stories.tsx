@@ -8,7 +8,7 @@ export default {
     component: Formik
 };
 
-export const LoginForm = () => {
+export const FormikLoginForm = () => {
     const validation = yup.object().shape({
         email: yup
             .string()
@@ -63,7 +63,7 @@ export const LoginForm = () => {
     </Formik>
 }
 
-export const RegistrationForm = () => {
+export const FormikRegistrationForm = () => {
     const validation = yup.object().shape({
         name: yup
             .string()

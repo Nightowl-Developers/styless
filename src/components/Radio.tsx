@@ -8,12 +8,15 @@ import {
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
+import Hint from "./Hint";
+import Error from "./Error";
 
 type propsToOmit = 'id';
 
 export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
     checked?: boolean;
     defaultChecked?: boolean;
+    error?: string;
     hint?: string;
     id: string;
     label: string;
@@ -24,6 +27,8 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     checked,
     defaultChecked,
     disabled = false,
+    error,
+    hint,
     id,
     label,
     labelProps,
@@ -84,6 +89,10 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
         >
             { label }
         </label>
+
+        { hint && <Hint id={`${id}-hint`} hint={hint} /> }
+
+        { error && <Error id={`${id}-error`} message={error} /> }
     </>;
 });
 
@@ -93,6 +102,8 @@ Radio.propTypes = {
     checked: PropTypes.bool,
     defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,
