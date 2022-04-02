@@ -73,6 +73,10 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
     return <>
         <input
             {...props}
+            aria-describedby={`${id}-hint`}
+            aria-labelledby={`${id}-label`}
+            aria-errormessage={`${id}-error`}
+            aria-invalid={!!error}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
@@ -85,7 +89,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
 
         <label
             {...labelProps}
-            htmlFor={id}
+            id={`${id}-label`}
         >
             { label }
         </label>

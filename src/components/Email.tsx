@@ -73,14 +73,17 @@ const Email = React.forwardRef<HTMLInputElement, EmailProps>(({
     return <>
         <label
             {...props.labelProps}
-            htmlFor={`${id}-label`}
+            id={`${id}-label`}
         >
             { props.label }
         </label>
 
         <input
             {...props}
+            aria-describedby={`${id}-hint`}
             aria-labelledby={`${id}-label`}
+            aria-errormessage={`${id}-error`}
+            aria-invalid={!!error}
             className={classNames('input', 'email-input', className)}
             disabled={disabled}
             onBlur={handleOnBlur}

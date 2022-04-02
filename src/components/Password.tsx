@@ -75,13 +75,17 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
     return <>
         <label
             {...labelProps}
-            htmlFor={id}
+            id={`${id}-label`}
         >
             { label }
         </label>
 
         <input
             {...props}
+            aria-describedby={`${id}-hint`}
+            aria-labelledby={`${id}-label`}
+            aria-errormessage={`${id}-error`}
+            aria-invalid={!!error}
             className={classNames('input', 'password-input', className)}
             id={id}
             onBlur={handleOnBlur}

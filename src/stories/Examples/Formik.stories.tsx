@@ -39,7 +39,7 @@ export const LoginForm = () => {
             isSubmitting
           }) => (<form onSubmit={handleSubmit}>
             <Email
-                // error={errors.email}
+                error={errors.email}
                 id={'email'}
                 label={'Email'}
                 name={'email'}
@@ -48,7 +48,7 @@ export const LoginForm = () => {
             />
 
             <Password
-                // error={errors.password}
+                error={errors.password}
                 id={'password'}
                 label={'Password'}
                 name={'password'}
