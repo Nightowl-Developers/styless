@@ -1,5 +1,5 @@
 # use nginx to serve static storybook
-FROM nginx:latest
+FROM nginx:1.21
 
 WORKDIR /styless
 
