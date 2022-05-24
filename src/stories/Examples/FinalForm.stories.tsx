@@ -10,6 +10,11 @@ export default {
 
 export const FinalLoginForm = () => {
     const validation = yup.object().shape({
+        name: yup
+            .string()
+            .min(2, 'Please enter a name that is at least 2 characters long.')
+            .max(254, 'Please enter a name that is at most 254 characters long.')
+            .required('Please enter a name.'),
         email: yup
             .string()
             .email('Please enter a valid email address.')
@@ -18,6 +23,9 @@ export const FinalLoginForm = () => {
             .string()
             .min(8, 'Please enter a password that is at least 8 characters.')
             .required('Please enter a password.'),
+        accepted: yup
+            .boolean()
+            .required('Please accept the terms of service to create an account.'),
     });
 
     return <Form
@@ -57,6 +65,7 @@ export const FinalLoginForm = () => {
                     label={'Password'}
                     name={'password'}
                     onChange={input.onChange}
+                    passwordToggleIcon={null}
                     value={input.value}
                 />
 
@@ -64,7 +73,7 @@ export const FinalLoginForm = () => {
                     // error={errors.accepted}
                     id={'accepts'}
                     label={'I have read and agree to the terms of service.'}
-                    name={'accepts'}
+                    name={'accepted'}
                     onChange={input.onChange}
                     value={input.value}
                 />

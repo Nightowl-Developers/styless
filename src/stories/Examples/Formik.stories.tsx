@@ -53,6 +53,7 @@ export const FormikLoginForm = () => {
                 label={'Password'}
                 name={'password'}
                 onChange={handleChange}
+                passwordToggleIcon={null}
                 value={values.password}
             />
 
@@ -128,6 +129,7 @@ export const FormikRegistrationForm = () => {
                     label={'Password'}
                     name={'password'}
                     onChange={handleChange}
+                    passwordToggleIcon={null}
                     value={values.password}
                 />
 
