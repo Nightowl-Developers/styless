@@ -11,6 +11,7 @@ import {
 } from '../hooks';
 import Error from "./Error";
 import Hint from "./Hint";
+import clsx from "clsx";
 
 type propsToOmit = 'defaultValue' | 'id';
 
@@ -21,8 +22,9 @@ export interface PasswordProps extends Omit<React.InputHTMLAttributes<HTMLInputE
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
+    passwordToggleIcon: React.ReactNode;
     value?: string;
-};
+}
 
 const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
     className,
@@ -37,6 +39,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
     onChange,
     onClick,
     onFocus,
+    passwordToggleIcon,
     value: valueProp,
     ...props
 }, ref) => {
@@ -45,6 +48,12 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
         default: defaultValue,
         name: 'Password'
     });
+
+    const [passwordVisibility, setPasswordVisibility] = React.useState(false);
+
+    const handleTogglePasswordVisibility = () => {
+        setPasswordVisibility(!passwordVisibility);
+    };
 
     const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
         onBlur,
@@ -73,12 +82,21 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
     );
 
     return <>
-        <label
-            {...labelProps}
-            id={`${id}-label`}
-        >
-            { label }
-        </label>
+        <div className={'label-wrapper'}>
+            <label
+                {...labelProps}
+                id={`${id}-label`}
+            >
+                { label }
+            </label>
+
+            <button
+                className={'password-visibility-button'}
+                onClick={handleTogglePasswordVisibility}
+            >
+                { passwordToggleIcon }
+            </button>
+        </div>
 
         <input
             {...props}
@@ -92,7 +110,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
             onChange={handleOnChange}
             onClick={handleOnClick}
             onFocus={handleOnFocus}
-            type='password'
+            type={passwordVisibility ? 'text' : 'password'}
             value={value}
             ref={ref}
         />
@@ -118,6 +136,7 @@ Password.propTypes = {
     onClick: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
+    passwordToggleIcon: PropTypes.any,
     value: PropTypes.string,
 };
 

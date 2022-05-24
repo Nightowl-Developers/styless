@@ -9,12 +9,15 @@ import {
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
+import Hint from "./Hint";
+import Error from "./Error";
 
 type propsToOmit = 'defaultValue' | 'id' | 'value';
 
 export interface SliderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
     defaultValue?: number;
     hint?: string;
+    error?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
@@ -25,6 +28,8 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
     className,
     defaultValue,
     disabled = false,
+    error,
+    hint,
     id,
     label,
     labelProps,
@@ -77,7 +82,11 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
 
         <input
             {...props}
-            className={classNames('input', 'slider-input', className)}
+            className={classNames(
+                'input',
+                'slider-input',
+                className
+            )}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
@@ -87,6 +96,10 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
             value={value}
             ref={ref}
         />
+
+        { hint && <Hint id={`${id}-hint`} hint={hint} /> }
+
+        { error && <Error id={`${id}-error`} message={error} /> }
     </>;
 });
 
@@ -96,6 +109,8 @@ Slider.propTypes = {
     defaultValue: PropTypes.number,
     className: PropTypes.string,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
+    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,

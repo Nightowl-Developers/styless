@@ -1665,6 +1665,11 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@ryuuji3/react-mask-hook@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@ryuuji3/react-mask-hook/-/react-mask-hook-1.0.1.tgz#6bd863f9b69c421f0e97a21c763255907fdf2674"
+  integrity sha512-KUBJeE9LMWuvQDhnQeufoeWR1pxPRzWnECL8nTdLB/kNXp2AZvLb0Akh5ZdJrDiCyPQUqd/1Xq6YuzJchsPg8g==
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
