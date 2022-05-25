@@ -10,6 +10,7 @@ export interface AccordionProps {
     className?: string;
     defaultOpen?: boolean;
     disabled?: boolean;
+    id: string;
     open?: boolean;
     title?: string;
     onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
@@ -23,6 +24,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
     className,
     defaultOpen,
     disabled = false,
+    id,
     open: openProp,
     title,
     onBlur,
@@ -80,24 +82,32 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
         ref={ref}
     >
         <Button
+            aria-expanded={open ? 'true' : 'false'}
+            aria-label={`${id} accordion header`}
+            aria-owns={`${id}-accordion-content`}
+            aria-controls={`${id}-accordion-content`}
             className={clsx(
                 'accordion__header',
                 `${className}-header`
             )}
             disabled={disabled}
+            id={`${id}-accordion-header`}
             onBlur={handleTitleBlur}
             onClick={handleTitleClick}
             onFocus={handleTitleFocus}
+            role={''}
         >
             { title }
         </Button>
 
         <div
+            aria-labelledby={`${id}-accordion-header`}
             className={clsx(
                 'accordion__content',
                 `content__${open ? 'visible' : 'hidden'}`,
                 `${className}-content`
             )}
+            id={`${id}-accordion-content`}
         >
             { children }
         </div>
