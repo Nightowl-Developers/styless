@@ -1,21 +1,24 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 export interface ChipProps {
     children: React.ReactNode;
+    className?: string;
     closable?: boolean;
     closeIcon?: React.ReactNode;
     disabled?: boolean;
     iconAfter?: React.ReactNode;
     iconBefore?: React.ReactNode;
     onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
-    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
     onClose?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
 };
 
 const Chip: React.FC<ChipProps> = ({
     children,
+    className,
     closable = false,
     closeIcon,
     disabled = false,
@@ -23,7 +26,9 @@ const Chip: React.FC<ChipProps> = ({
     iconBefore,
     onBlur,
     onClick,
-    onFocus
+    onClose,
+    onFocus,
+    onKeyDown
 }) => {
     const handleOnBlur = (event: React.FocusEvent<HTMLButtonElement>) => {
         if (onBlur) {
@@ -31,7 +36,7 @@ const Chip: React.FC<ChipProps> = ({
         }
     };
 
-    const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (onClick) {
             onClick(event);
         }
@@ -43,8 +48,24 @@ const Chip: React.FC<ChipProps> = ({
         }
     };
 
+    const handleOnClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (onClose) {
+            onClose(event);
+        }
+    };
+
+    const handleOnKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (onKeyDown) {
+            onKeyDown(event);
+        }
+    }
+
     return <div
-        className='chip'
+        className={clsx(
+            'chip',
+            className
+        )}
+        onClick={handleOnClick}
     >
         { iconBefore && iconBefore }
         { children }
@@ -54,10 +75,11 @@ const Chip: React.FC<ChipProps> = ({
             closable &&
             closeIcon &&
             <button
-                className={classNames('chip-close-button')}
+                className={'chip-close-button'}
                 onBlur={handleOnBlur}
-                onClick={handleOnClick}
+                onClick={handleOnClose}
                 onFocus={handleOnFocus}
+                onKeyDown={handleOnKeyDown}
             >
                 { closeIcon }
             </button>
