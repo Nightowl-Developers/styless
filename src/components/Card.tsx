@@ -13,7 +13,13 @@ const Card: React.FC<CardProps> = ({
    className,
    id
 }) => (
-  <div className={classNames('card', className)} id={id}>
+  <div
+      className={classNames(
+          'card',
+          className
+      )}
+      id={id}
+  >
     { children }
   </div>
 );

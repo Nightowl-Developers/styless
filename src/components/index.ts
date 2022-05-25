@@ -1,4 +1,9 @@
 export {
+    default as Badge,
+    BadgeProps
+} from './Badge';
+
+export {
     default as Button,
     ButtonProps
 } from './Button';
