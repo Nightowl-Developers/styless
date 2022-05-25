@@ -17,6 +17,7 @@ export interface AccordionProps {
     onChange?: (open: boolean) => void;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
@@ -83,8 +84,6 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
     >
         <Button
             aria-expanded={open ? 'true' : 'false'}
-            aria-label={`${id} accordion header`}
-            aria-owns={`${id}-accordion-content`}
             aria-controls={`${id}-accordion-content`}
             className={clsx(
                 'accordion__header',
