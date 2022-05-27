@@ -120,6 +120,7 @@ Accordion.propTypes = {
     className: PropTypes.string,
     defaultOpen: PropTypes.bool,
     disabled: PropTypes.bool,
+    id: PropTypes.string.isRequired,
     open: PropTypes.bool,
     title: PropTypes.string,
     onBlur: PropTypes.func,

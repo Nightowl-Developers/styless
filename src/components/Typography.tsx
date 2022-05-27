@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 export interface TypographyProps extends React.HTMLAttributes<HTMLParagraphElement | HTMLHeadingElement> {
     align?: 'left' | 'center' | 'right';
@@ -35,7 +35,7 @@ const Typography: React.FC<TypographyProps> = ({
     const [element, elementClass] = getElementByVariant(variant);
 
     return React.createElement(element, {
-        className: classNames(
+        className: clsx(
             'typography',
             `variant--${variant}`,
             `align--${align}`,

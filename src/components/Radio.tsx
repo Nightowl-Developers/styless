@@ -10,11 +10,13 @@ import {
 } from '../hooks';
 import Hint from "./Hint";
 import Error from "./Error";
+import clsx from "clsx";
 
 type propsToOmit = 'id';
 
 export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
     checked?: boolean;
+    className?: string;
     defaultChecked?: boolean;
     error?: string;
     hint?: string;
@@ -25,6 +27,7 @@ export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 
 const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     checked,
+    className,
     defaultChecked,
     disabled = false,
     error,
@@ -73,6 +76,10 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     return <>
         <input
             {...props}
+            className={clsx(
+                'radio',
+                className
+            )}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
@@ -100,6 +107,7 @@ Radio.displayName = 'Radio';
 
 Radio.propTypes = {
     checked: PropTypes.bool,
+    className: PropTypes.string,
     defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.string,

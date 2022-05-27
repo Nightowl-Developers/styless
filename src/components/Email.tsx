@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
+import clsx from 'clsx';
 
 import {
     useControlled,
@@ -84,7 +84,7 @@ const Email = React.forwardRef<HTMLInputElement, EmailProps>(({
             aria-labelledby={`${id}-label`}
             aria-errormessage={`${id}-error`}
             aria-invalid={!!error}
-            className={classNames('input', 'email-input', className)}
+            className={clsx('email-input', className)}
             disabled={disabled}
             onBlur={handleOnBlur}
             onChange={handleOnChange}

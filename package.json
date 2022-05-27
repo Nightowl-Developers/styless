@@ -60,7 +60,6 @@
   "dependencies": {
     "@popperjs/core": "^2.11.5",
     "@ryuuji3/react-mask-hook": "^1.0.1",
-    "classnames": "^2.3.1",
     "clsx": "^1.1.1",
     "formik": "^2.2.9",
     "prop-types": "^15.8.1",

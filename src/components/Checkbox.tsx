@@ -10,6 +10,7 @@ import {
 } from '../hooks';
 import Hint from "./Hint";
 import Error from "./Error";
+import clsx from "clsx";
 
 type propsToOmit = 'id';
 
@@ -25,6 +26,7 @@ export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputE
 
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
     checked,
+    className,
     defaultChecked,
     disabled = false,
     error,
@@ -77,6 +79,10 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({
             aria-labelledby={`${id}-label`}
             aria-errormessage={`${id}-error`}
             aria-invalid={!!error}
+            className={clsx(
+                'checkbox',
+                className
+            )}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
@@ -104,6 +110,7 @@ Checkbox.displayName = 'Checkbox';
 
 Checkbox.propTypes = {
     checked: PropTypes.bool,
+    className: PropTypes.string,
     defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.string,

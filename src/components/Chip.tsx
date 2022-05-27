@@ -1,5 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
+import {useCreateBlurHandler, useCreateClickHandler, useCreateFocusHandler} from "../hooks";
+import PropTypes from "prop-types";
 
 export interface ChipProps {
     children: React.ReactNode;
@@ -30,35 +32,31 @@ const Chip: React.FC<ChipProps> = ({
     onFocus,
     onKeyDown
 }) => {
-    const handleOnBlur = (event: React.FocusEvent<HTMLButtonElement>) => {
-        if (onBlur) {
-            onBlur(event);
-        }
-    };
+    const handleOnBlur = useCreateBlurHandler<HTMLInputElement>(
+        onBlur,
+        disabled
+    );
 
-    const handleOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (onClick) {
-            onClick(event);
-        }
-    };
-    
-    const handleOnFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
-        if (onFocus) {
-            onFocus(event);
-        }
-    };
+    const handleOnClick = useCreateClickHandler<HTMLInputElement>(
+        onClick,
+        disabled
+    );
 
-    const handleOnClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (onClose) {
-            onClose(event);
-        }
-    };
+    const handleOnClose = useCreateClickHandler<HTMLInputElement>(
+        onClose,
+        disabled
+    );
+
+    const handleOnFocus = useCreateFocusHandler<HTMLInputElement>(
+        onFocus,
+        disabled
+    );
 
     const handleOnKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
         if (onKeyDown) {
             onKeyDown(event);
         }
-    }
+    };
 
     return <div
         className={clsx(
@@ -86,5 +84,22 @@ const Chip: React.FC<ChipProps> = ({
         }
     </div>;
 };
+
+Chip.displayName = 'Chip';
+
+Chip.propTypes = {
+    children: PropTypes.element.isRequired,
+    className: PropTypes.string,
+    closable: PropTypes.bool,
+    closeIcon: PropTypes.element,
+    disabled: PropTypes.bool,
+    iconAfter: PropTypes.element,
+    iconBefore: PropTypes.element,
+    onBlur: PropTypes.func,
+    onClick: PropTypes.func,
+    onClose: PropTypes.func,
+    onFocus: PropTypes.func,
+    onKeyDown: PropTypes.func
+}
 
 export default Chip;

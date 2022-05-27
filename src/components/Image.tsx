@@ -1,8 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'alt'> {
+export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'alt' | 'src' | 'srcSet'> {
     alt: string;
+    src: string;
+    srcSet?: string;
 }
 
 const Image: React.FC<ImageProps> = ({
@@ -24,5 +26,11 @@ const Image: React.FC<ImageProps> = ({
 };
 
 Image.displayName = 'Image';
+
+Image.propTypes = {
+    alt: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+    srcSet: PropTypes.string,
+}
 
 export default Image;

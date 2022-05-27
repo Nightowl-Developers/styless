@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
+import clsx from 'clsx';
 
 import {
     useControlled,
@@ -11,7 +11,6 @@ import {
 } from '../hooks';
 import Error from "./Error";
 import Hint from "./Hint";
-import clsx from "clsx";
 
 type propsToOmit = 'defaultValue' | 'id';
 
@@ -104,7 +103,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
             aria-labelledby={`${id}-label`}
             aria-errormessage={`${id}-error`}
             aria-invalid={!!error}
-            className={classNames('input', 'password-input', className)}
+            className={clsx('password-input', className)}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}

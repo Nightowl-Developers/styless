@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
+import clsx from 'clsx';
 
 import {
     useControlled,
@@ -86,7 +86,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
             aria-labelledby={`${id}-label`}
             aria-errormessage={`${id}-error`}
             aria-invalid={!!error}
-            className={classNames('input', className)}
+            className={clsx('input', className)}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}

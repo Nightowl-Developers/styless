@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
+import clsx from 'clsx';
 
 import {
     useControlled,
@@ -37,6 +37,7 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
     onChange,
     onClick,
     onFocus,
+    step = 1,
     value: valueProp,
     ...props
 }, ref) => {
@@ -82,7 +83,7 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
 
         <input
             {...props}
-            className={classNames('input', 'numeric-input', className)}
+            className={clsx('numeric-input', className)}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
@@ -114,6 +115,7 @@ NumericInput.propTypes = {
     onClick: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
+    step: PropTypes.number,
     value: PropTypes.number,
 };
 

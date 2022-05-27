@@ -11,5 +11,6 @@ export const DefaultPassword = () => {
     return <Password
         id={'password'}
         label={'Password'}
+        passwordToggleIcon={null}
     />;
 };

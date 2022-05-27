@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
+import clsx from 'clsx';
 
 import {
     useControlled,
@@ -82,8 +82,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps>(({
 
         <input
             {...props}
-            className={classNames(
-                'input',
+            className={clsx(
                 'slider-input',
                 className
             )}
