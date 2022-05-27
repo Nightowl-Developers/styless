@@ -2,7 +2,8 @@ import * as React from 'react';
 
 const useCreateClickHandler = <ElementType>(
     onClick: (event: React.MouseEvent<ElementType>) => void,
-    disabled: boolean
+    disabled: boolean,
+    deps?: React.DependencyList,
 ) => {
     return React.useCallback((event: React.MouseEvent<ElementType>) => {
         if (!disabled) {
@@ -12,7 +13,7 @@ const useCreateClickHandler = <ElementType>(
         }
     }, [
         disabled,
-        onClick
+        ...deps,
     ]);
 };
 

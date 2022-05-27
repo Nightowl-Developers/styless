@@ -1,4 +1,8 @@
 export {
+    default as createInputMask,
+} from './createMaskedInput';
+
+export {
     default as useCreateBlurHandler
 } from './useCreateBlurHandler';
 
@@ -13,10 +17,6 @@ export {
 export {
     default as useCreateFocusHandler
 } from './useCreateFocusHandler';
-
-export {
-    default as useCreateMaskedInput
-} from './useCreateMaskedInput';
 
 export {
     default as useClickAway

@@ -8,7 +8,7 @@ export default {
 };
 
 export const DefaultLink = () => {
-    return <Link href={'www.google.com'}>
+    return <Link href={'https://www.google.com'}>
         Link text
     </Link>
 }
