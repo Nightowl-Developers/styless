@@ -24,8 +24,8 @@ const Error: React.FC<ErrorProps> = ({
 Error.displayName = 'Error';
 
 Error.propTypes = {
-    id: PropTypes.string,
-    message: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
 };
 
 export default Error;

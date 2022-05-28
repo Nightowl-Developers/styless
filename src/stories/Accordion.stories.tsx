@@ -15,13 +15,22 @@ export const ControlledAccordion = () => {
         setOpen(open);
     };
 
-    return <Accordion className={'accordion'} title={'Title'} onChange={handleChange} open={open}>
+    return <Accordion
+        className={'accordion'}
+        id={'accordion'}
+        title={'Title'}
+        onChange={handleChange}
+        open={open}
+    >
         Content
     </Accordion>;
 };
 
 export const UncontrolledAccordion = () => {
-    return <Accordion title={'Title'}>
+    return <Accordion
+        id={'accordion'}
+        title={'Title'}
+    >
         Content
     </Accordion>;
 }

@@ -9,7 +9,9 @@ export default {
 
 export const DefaultPassword = () => {
     return <Password
+        hint={'Password'}
         id={'password'}
         label={'Password'}
+        passwordToggleIcon={null}
     />;
 };

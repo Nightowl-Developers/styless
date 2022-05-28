@@ -9,6 +9,7 @@ export default {
 
 export const DefaultNumericInput = () => {
     return <NumericInput
+        hint={'Age'}
         id={'age'}
         label={'Age'}
     />;

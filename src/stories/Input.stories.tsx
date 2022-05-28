@@ -9,6 +9,7 @@ export default {
 
 export const DefaultInput = () => {
     return <Input
+        hint={'Name'}
         id={'input'}
         label={'Name'}
     />;

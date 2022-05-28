@@ -8,19 +8,22 @@ import {
     useCreateClickHandler,
     useCreateFocusHandler
 } from '../hooks';
+import clsx from "clsx";
 
 type propsToOmit = 'defaultValue' | 'id';
 
 export interface SearchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
+    className?: string;
     defaultValue?: string;
     hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
     value?: string;
-};
+}
 
 const Search = React.forwardRef<HTMLInputElement, SearchProps>(({
+    className,
     defaultValue,
     disabled = false,
     id,
@@ -75,6 +78,10 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(({
 
         <input
             {...props}
+            className={clsx(
+                'search',
+                className
+            )}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
@@ -84,12 +91,15 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(({
             value={value}
             ref={ref}
         />
+
+        {/*  @TODO: add clear button and functionality  */}
     </>;
 });
 
 Search.displayName = 'Search';
 
 Search.propTypes = {
+    className: PropTypes.string,
     defaultValue: PropTypes.string,
     disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,

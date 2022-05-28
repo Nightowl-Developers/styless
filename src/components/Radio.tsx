@@ -10,14 +10,14 @@ import {
 } from '../hooks';
 import Hint from "./Hint";
 import Error from "./Error";
+import clsx from "clsx";
 
 type propsToOmit = 'id';
 
 export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, propsToOmit> {
     checked?: boolean;
+    className?: string;
     defaultChecked?: boolean;
-    error?: string;
-    hint?: string;
     id: string;
     label: string;
     labelProps?: React.HTMLAttributes<HTMLLabelElement>;
@@ -25,10 +25,9 @@ export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 
 const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     checked,
+    className,
     defaultChecked,
     disabled = false,
-    error,
-    hint,
     id,
     label,
     labelProps,
@@ -73,6 +72,11 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
     return <>
         <input
             {...props}
+            aria-labelledby={`${id}-label`}
+            className={clsx(
+                'radio',
+                className
+            )}
             id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
@@ -85,14 +89,10 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(({
 
         <label
             {...labelProps}
-            htmlFor={id}
+            id={`${id}-label`}
         >
             { label }
         </label>
-
-        { hint && <Hint id={`${id}-hint`} hint={hint} /> }
-
-        { error && <Error id={`${id}-error`} message={error} /> }
     </>;
 });
 
@@ -100,10 +100,9 @@ Radio.displayName = 'Radio';
 
 Radio.propTypes = {
     checked: PropTypes.bool,
+    className: PropTypes.string,
     defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
-    error: PropTypes.string,
-    hint: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelProps: PropTypes.any,

@@ -9,7 +9,7 @@ export default {
 
 export const DefaultCheckbox = () => {
     return <Checkbox
-        id={'input'}
+        id={'checkbox'}
         label={'Name'}
     />;
 };

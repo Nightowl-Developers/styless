@@ -15,10 +15,6 @@ export {
 } from './useCreateFocusHandler';
 
 export {
-    default as useCreateMaskedInput
-} from './useCreateMaskedInput';
-
-export {
     default as useClickAway
 } from './useClickAway';
 

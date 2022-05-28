@@ -10,12 +10,14 @@ export interface AccordionProps {
     className?: string;
     defaultOpen?: boolean;
     disabled?: boolean;
+    id: string;
     open?: boolean;
     title?: string;
     onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
     onChange?: (open: boolean) => void;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
@@ -23,6 +25,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
     className,
     defaultOpen,
     disabled = false,
+    id,
     open: openProp,
     title,
     onBlur,
@@ -80,11 +83,14 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
         ref={ref}
     >
         <Button
+            aria-expanded={open ? 'true' : 'false'}
+            aria-controls={`${id}-accordion-content`}
             className={clsx(
                 'accordion__header',
                 `${className}-header`
             )}
             disabled={disabled}
+            id={`${id}-accordion-header`}
             onBlur={handleTitleBlur}
             onClick={handleTitleClick}
             onFocus={handleTitleFocus}
@@ -93,11 +99,14 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
         </Button>
 
         <div
+            // aria-labelledby={`${id}-accordion-header`}
             className={clsx(
                 'accordion__content',
                 `content__${open ? 'visible' : 'hidden'}`,
                 `${className}-content`
             )}
+            id={`${id}-accordion-content`}
+            role={'region'}
         >
             { children }
         </div>
@@ -111,6 +120,7 @@ Accordion.propTypes = {
     className: PropTypes.string,
     defaultOpen: PropTypes.bool,
     disabled: PropTypes.bool,
+    id: PropTypes.string.isRequired,
     open: PropTypes.bool,
     title: PropTypes.string,
     onBlur: PropTypes.func,

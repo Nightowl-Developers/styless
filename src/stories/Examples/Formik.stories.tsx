@@ -40,6 +40,7 @@ export const FormikLoginForm = () => {
           }) => (<form onSubmit={handleSubmit}>
             <Email
                 error={errors.email}
+                hint={'Email'}
                 id={'email'}
                 label={'Email'}
                 name={'email'}
@@ -49,10 +50,12 @@ export const FormikLoginForm = () => {
 
             <Password
                 error={errors.password}
+                hint={'Password'}
                 id={'password'}
                 label={'Password'}
                 name={'password'}
                 onChange={handleChange}
+                passwordToggleIcon={null}
                 value={values.password}
             />
 
@@ -106,6 +109,7 @@ export const FormikRegistrationForm = () => {
             <form onSubmit={handleSubmit}>
                 <Input
                     error={errors.name}
+                    hint={'Name'}
                     id={'name'}
                     label={'Name'}
                     name={'name'}
@@ -115,6 +119,7 @@ export const FormikRegistrationForm = () => {
 
                 <Email
                     error={errors.email}
+                    hint={'Email'}
                     id={'email'}
                     label={'Email'}
                     name={'email'}
@@ -124,15 +129,16 @@ export const FormikRegistrationForm = () => {
 
                 <Password
                     error={errors.password}
+                    hint={'Password'}
                     id={'password'}
                     label={'Password'}
                     name={'password'}
                     onChange={handleChange}
+                    passwordToggleIcon={null}
                     value={values.password}
                 />
 
                 <Checkbox
-                    error={errors.accepted}
                     id={'accepts'}
                     label={'I have read and agree to the terms of service.'}
                     name={'accepts'}

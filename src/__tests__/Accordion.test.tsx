@@ -12,7 +12,7 @@
  
  describe('Accordion component', () => {
      it('should render', () => {
-         const {container} = render(<Accordion title={'Accordion Title'}>
+         const {container} = render(<Accordion id={'accordion'} title={'Accordion Title'}>
              Content
          </Accordion>);
 
@@ -20,7 +20,7 @@
      });
 
      it('should open', () => {
-         const {container, getByText} = render(<Accordion className={'test'} title={'Accordion Title'}>
+         const {container, getByText} = render(<Accordion className={'test'} id={'accordion'} title={'Accordion Title'}>
              Content
          </Accordion>);
 

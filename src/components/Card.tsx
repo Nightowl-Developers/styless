@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
+import clsx from 'clsx';
 
 export interface CardProps {
     children: React.ReactNode;
@@ -13,7 +13,13 @@ const Card: React.FC<CardProps> = ({
    className,
    id
 }) => (
-  <div className={classNames('card', className)} id={id}>
+  <div
+      className={clsx(
+          'card',
+          className
+      )}
+      id={id}
+  >
     { children }
   </div>
 );

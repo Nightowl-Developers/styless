@@ -11,7 +11,7 @@
 
  describe('Password component', () => {
      it('should render', () => {
-         const { getByPlaceholderText, getByLabelText } = render(<Password id='password' label='Password' placeholder='Password' />);
+         const { getByPlaceholderText, getByLabelText } = render(<Password id='password' label='Password' placeholder='Password'  passwordToggleIcon={null} />);
 
          const input = getByPlaceholderText('Password');
          const label = getByLabelText('Password');
@@ -21,7 +21,7 @@
      });
 
      it('should have a label that explains the input', () => {
-         const { getByPlaceholderText, getByLabelText } = render(<Password id='password' label='Password' placeholder='Password' />);
+         const { getByPlaceholderText, getByLabelText } = render(<Password id='password' label='Password' placeholder='Password' passwordToggleIcon={null} />);
 
          const input = getByPlaceholderText('Password');
          const label = getByLabelText('Password');
@@ -42,6 +42,7 @@
             label='Password'
             onChange={handlers.change}
             placeholder='Password'
+            passwordToggleIcon={null}
         />);
 
         const input = getByPlaceholderText('Password');
@@ -67,6 +68,7 @@
             label='Password'
             onFocus={handlers.focus}
             placeholder='Password'
+            passwordToggleIcon={null}
         />);
 
         const input = getByPlaceholderText('Password');
@@ -88,6 +90,7 @@
             label='Password'
             onBlur={handlers.blur}
             placeholder='Password'
+            passwordToggleIcon={null}
         />);
 
         const input = getByPlaceholderText('Password');
@@ -109,6 +112,7 @@
             label='Password'
             onClick={handlers.click}
             placeholder='Password'
+            passwordToggleIcon={null}
             disabled
         />);
 
@@ -131,6 +135,7 @@
             label='Password'
             onFocus={handlers.focus}
             placeholder='Password'
+            passwordToggleIcon={null}
             disabled
         />);
 
