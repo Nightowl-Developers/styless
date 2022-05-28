@@ -9,6 +9,7 @@ export default {
 
 export const DefaultEmail = () => {
     return <Email
+        hint={'Email Address'}
         id={'email'}
         label={'Email Address'}
     />;

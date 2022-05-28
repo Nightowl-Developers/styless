@@ -10,7 +10,7 @@ const Hint: React.FC<HintProps> = ({
     id,
     hint
 }) => {
-    return <span id={`${id}-hint`}>
+    return <span id={id}>
         {hint}
     </span>
 };

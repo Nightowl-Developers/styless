@@ -94,19 +94,19 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(({
             onBlur={handleTitleBlur}
             onClick={handleTitleClick}
             onFocus={handleTitleFocus}
-            role={''}
         >
             { title }
         </Button>
 
         <div
-            aria-labelledby={`${id}-accordion-header`}
+            // aria-labelledby={`${id}-accordion-header`}
             className={clsx(
                 'accordion__content',
                 `content__${open ? 'visible' : 'hidden'}`,
                 `${className}-content`
             )}
             id={`${id}-accordion-content`}
+            role={'region'}
         >
             { children }
         </div>

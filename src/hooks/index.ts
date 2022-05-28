@@ -1,8 +1,4 @@
 export {
-    default as createInputMask,
-} from './createMaskedInput';
-
-export {
     default as useCreateBlurHandler
 } from './useCreateBlurHandler';
 

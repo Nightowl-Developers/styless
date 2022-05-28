@@ -75,14 +75,16 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(({
 
     return <>
         <label
-            {...labelProps}
-            htmlFor={id}
+            id={`${id}-label`}
         >
             { label }
         </label>
 
         <input
             {...props}
+            aria-describedby={`${id}-hint`}
+            aria-labelledby={`${id}-label`}
+            aria-errormessage={`${id}-error`}
             className={clsx('numeric-input', className)}
             id={id}
             onBlur={handleOnBlur}

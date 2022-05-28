@@ -13,7 +13,7 @@ const useCreateClickHandler = <ElementType>(
         }
     }, [
         disabled,
-        ...deps,
+        deps,
     ]);
 };
 

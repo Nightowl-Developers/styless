@@ -13,7 +13,7 @@ const useCreateFocusHandler = <ElementType>(
         }
     }, [
         disabled,
-        ...deps,
+        deps,
     ]);
 };
 

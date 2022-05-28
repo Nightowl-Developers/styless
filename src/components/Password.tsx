@@ -90,6 +90,7 @@ const Password = React.forwardRef<HTMLInputElement, PasswordProps>(({
             </label>
 
             <button
+                aria-label={`${passwordVisibility ? 'Hide' : 'Show'} password`}
                 className={'password-visibility-button'}
                 onClick={handleTogglePasswordVisibility}
             >

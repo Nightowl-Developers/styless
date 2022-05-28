@@ -13,7 +13,7 @@ const useCreateBlurHandler = <ElementType>(
         }
     }, [
         disabled,
-        ...deps,
+        deps,
     ]);
 };
 

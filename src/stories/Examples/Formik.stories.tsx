@@ -40,6 +40,7 @@ export const FormikLoginForm = () => {
           }) => (<form onSubmit={handleSubmit}>
             <Email
                 error={errors.email}
+                hint={'Email'}
                 id={'email'}
                 label={'Email'}
                 name={'email'}
@@ -49,6 +50,7 @@ export const FormikLoginForm = () => {
 
             <Password
                 error={errors.password}
+                hint={'Password'}
                 id={'password'}
                 label={'Password'}
                 name={'password'}

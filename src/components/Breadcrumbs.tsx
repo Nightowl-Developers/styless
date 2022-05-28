@@ -16,27 +16,46 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
     className,
     crumbs
 }) => {
-    return <ul
+    return <nav
+        aria-label={'Breadcrumbs'}
         className={clsx(
-            'crumb-list',
+            'crumb__nav',
             className
         )}
     >
-        {
-            crumbs.map(({
-                current,
-                label,
-            }: Breadcrumb) => {
-                return <li
-                    key={label}
-                    aria-current={current}
-                    className={'crumb'}
-                >
-                    { label }
-                </li>;
-            })
-        }
-    </ul>;
+        <ul
+            className={'crumb__list'}
+        >
+            {
+                crumbs.map(({
+                    current,
+                    href,
+                    label,
+                }: Breadcrumb) => {
+                    return !current
+                        ?  <li
+                            className={'crumb__current'}
+                            key={label}
+                        >
+                            <a
+                                className={'crumb__link'}
+                                key={label}
+                                href={href}
+                            >
+                                { label }
+                            </a>
+                        </li>
+                        : <li
+                            aria-current={"location"}
+                            className={'crumb__current'}
+                            key={label}
+                        >
+                            { label }
+                        </li>;
+                })
+            }
+        </ul>
+    </nav>;
 };
 
 Breadcrumbs.displayName = 'Breadcrumbs';
