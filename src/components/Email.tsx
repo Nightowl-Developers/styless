@@ -86,6 +86,7 @@ const Email = React.forwardRef<HTMLInputElement, EmailProps>(({
             aria-invalid={!!error}
             className={clsx('email-input', className)}
             disabled={disabled}
+            id={id}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
             onClick={handleOnClick}

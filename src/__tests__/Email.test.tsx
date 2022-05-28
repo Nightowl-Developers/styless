@@ -21,13 +21,14 @@
      });
 
      it('should have a label that explains the input', () => {
-         const { getByPlaceholderText, getByLabelText } = render(<Email id='email' label='Email Address' placeholder='Email Address' />);
+         const { getByPlaceholderText, getByLabelText } = render(
+             <Email id='email' label='Email Address' placeholder='Email Address' />
+         );
 
          const input = getByPlaceholderText('Email Address');
          const label = getByLabelText('Email Address');
 
-         expect(input.id).toEqual('email');
-        //  expect(label.attributes['htmlFor'])toEqual('email');
+         expect(getByPlaceholderText('Email Address')).toHaveAttribute('id', 'email');
      });
 
      it('should fire change event on input', () => {
