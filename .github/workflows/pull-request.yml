@@ -37,14 +37,13 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
 
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+      - name: Install and Build
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
 
       - name: Linter
         run: yarn lint
 
       - name: Unit Tests
         run: yarn test
-
-      - name: Rollup Build
-        run: yarn build
