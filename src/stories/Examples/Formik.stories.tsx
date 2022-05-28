@@ -109,6 +109,7 @@ export const FormikRegistrationForm = () => {
             <form onSubmit={handleSubmit}>
                 <Input
                     error={errors.name}
+                    hint={'Name'}
                     id={'name'}
                     label={'Name'}
                     name={'name'}
@@ -118,6 +119,7 @@ export const FormikRegistrationForm = () => {
 
                 <Email
                     error={errors.email}
+                    hint={'Email'}
                     id={'email'}
                     label={'Email'}
                     name={'email'}
@@ -127,6 +129,7 @@ export const FormikRegistrationForm = () => {
 
                 <Password
                     error={errors.password}
+                    hint={'Password'}
                     id={'password'}
                     label={'Password'}
                     name={'password'}
@@ -136,7 +139,6 @@ export const FormikRegistrationForm = () => {
                 />
 
                 <Checkbox
-                    error={errors.accepted}
                     id={'accepts'}
                     label={'I have read and agree to the terms of service.'}
                     name={'accepts'}
