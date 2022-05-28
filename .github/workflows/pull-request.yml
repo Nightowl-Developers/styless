@@ -39,11 +39,14 @@ jobs:
 
       - name: Install and Build
         run: |
+          rm -rf node_modules
           yarn install --frozen-lockfile
-          yarn build
 
       - name: Linter
         run: yarn lint
 
       - name: Unit Tests
         run: yarn test
+
+      - name: Build
+        run: yarn build
